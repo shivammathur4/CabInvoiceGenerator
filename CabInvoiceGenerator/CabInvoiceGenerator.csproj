@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CabInVoiceException.cs" />
     <Compile Include="InVoiceGenerator.cs" />
+    <Compile Include="InVoiceSummary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ride.cs" />

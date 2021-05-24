@@ -7,6 +7,7 @@ namespace CabInVoiceTest
 {
     public class Tests
     {
+
         
         InVoiceGenerator invoiceGenerator;
 
@@ -15,36 +16,49 @@ namespace CabInVoiceTest
         {
         }
 
-        
         [Test]
         public void Test1()
         {
             Assert.Pass();
         }
 
-        
+       
         [Test]
-        public void GivenDistanceAndTime_ShouldReturnTotalFare()
+        public void GivenMultipleRides_ShouldReturnInvoiceSummary()
         {
             
             invoiceGenerator = new InVoiceGenerator(RideType.NORMAL);
-            double distance = 2.0;
-            int time = 5;
-            double fare = invoiceGenerator.CalculateFare(distance, time);
-            double expected = 25;
-            Assert.AreEqual(expected, fare);
+            Ride[] rides =
+            {
+                new Ride(1.0, 1),
+                new Ride(2.0, 2),
+                new Ride(2.0, 2),
+                new Ride(4.0, 4),
+                new Ride(3.0, 3)
+            };
+            double expected = 132;
+            InVoiceSummary summary = invoiceGenerator.CalculateFare(rides);
+            Assert.AreEqual(expected, summary.totalFare);
         }
 
+        
         [Test]
-        public void GivenDistanceAndTime_ReturnTotalFare()
+        public void GivenMultipleRides_ReturnInvoiceSummary()
         {
             
             invoiceGenerator = new InVoiceGenerator(RideType.PREMIUM);
-            double distance = 4.0;
-            int time = 5;
-            double fare = invoiceGenerator.CalculateFare(distance, time);
-            double expected = 70;
-            Assert.AreEqual(expected, fare);
+            Ride[] rides =
+            {
+                new Ride(7.0, 1),
+                new Ride(2.0, 3),
+                new Ride(1.0, 2),
+                new Ride(5.0, 4),
+                new Ride(3.0, 3)
+            };
+            double expected = 297;
+            
+            InVoiceSummary summary = invoiceGenerator.CalculateFare(rides);
+            Assert.AreEqual(expected, summary.totalFare);
         }
     }
 }
