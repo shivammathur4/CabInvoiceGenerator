@@ -49,7 +49,6 @@ namespace CabInvoiceGenerator
         public double CalculateFare(double distance, int time)
         {
             double totalFare = 0;
-            
             try
             {
                 
@@ -73,11 +72,11 @@ namespace CabInvoiceGenerator
                     throw new CabInVoiceException(CabInVoiceException.ExceptionType.INVALID_TIME, "Invalid time");
                 }
             }
-            
+           
             return Math.Max(totalFare, MINIMUM_FARE);
         }
 
-        
+       
         public InVoiceSummary CalculateFare(Ride[] rides)
         {
             double totalFare = 0;
@@ -99,7 +98,7 @@ namespace CabInvoiceGenerator
                 }
             }
             
-            return new InVoiceSummary(rides.Length, totalFare);
+            return new InVoiceSummary(rides.Length, (int)totalFare);
         }
 
         
@@ -130,6 +129,34 @@ namespace CabInvoiceGenerator
             {
                 throw new CabInVoiceException(CabInVoiceException.ExceptionType.INVALID_USER_ID, "Invalid UserID");
             }
+        }
+
+        
+        public InVoiceSummary CalculateAvgFare(Ride[] rides)
+        {
+            double totalFare = 0;
+            double averageFare = 0;
+            
+            try
+            {
+                
+                foreach (Ride ride in rides)
+                {
+                    
+                    totalFare += this.CalculateFare(ride.distance, ride.time);
+                }
+                
+                averageFare = (totalFare / rides.Length);
+            }
+            catch (CabInVoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInVoiceException(CabInVoiceException.ExceptionType.NULL_RIDES, "Rides passed are null..");
+                }
+            }
+            
+            return new InVoiceSummary(totalFare, rides.Length, averageFare);
         }
     }
 }
