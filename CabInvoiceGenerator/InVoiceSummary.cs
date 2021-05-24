@@ -8,7 +8,7 @@ namespace CabInvoiceGenerator
 {
     public class InVoiceSummary
     {
-       
+        
         public int numberOfRides;
         public double totalFare;
         public double averageFare;
@@ -32,6 +32,7 @@ namespace CabInvoiceGenerator
         
         public override bool Equals(object obj)
         {
+            
             if (obj == null) return false;
             if (!(obj is InVoiceSummary)) return false;
             InVoiceSummary inputedObject = (InVoiceSummary)obj;

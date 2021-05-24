@@ -23,15 +23,17 @@ namespace CabInVoiceTest
         }
 
 
-        [Test]
-        public void GivenMultipleRides_ShouldReturnInvoiceSummary_WithAverage()
+        public void GivenUserId_ShouldReturnInvoiceSummary()
         {
+            
             invoiceGenerator = new InVoiceGenerator(RideType.NORMAL);
+            RideRepository repository = new RideRepository();
+            string userID = "Shivam";
             Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
-            InVoiceSummary invoiceSummary = invoiceGenerator.CalculateAvgFare(rides);
-            var resultHashCode = invoiceSummary.GetHashCode();
+            repository.AddRide(userID, rides);
+            Ride[] rideData = repository.GetRides(userID);
+            InVoiceSummary invoiceSummary = invoiceGenerator.CalculateAvgFare(rideData);
             InVoiceSummary expectedInvoiceSummary = new InVoiceSummary(30.0, 2, 15.0);
-            var resulExpectedHashCode = expectedInvoiceSummary.GetHashCode();
             Assert.AreEqual(expectedInvoiceSummary, invoiceSummary);
         }
     }
