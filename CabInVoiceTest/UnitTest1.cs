@@ -23,18 +23,28 @@ namespace CabInVoiceTest
         }
 
 
-        public void GivenUserId_ShouldReturnInvoiceSummary()
+        [Test]
+        public void GivenNormal_RideType_ShouldReturnInvoice()
         {
             
+            double distance = 2.0;
+            int time = 5;
             invoiceGenerator = new InVoiceGenerator(RideType.NORMAL);
-            RideRepository repository = new RideRepository();
-            string userID = "Shivam";
-            Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
-            repository.AddRide(userID, rides);
-            Ride[] rideData = repository.GetRides(userID);
-            InVoiceSummary invoiceSummary = invoiceGenerator.CalculateAvgFare(rideData);
-            InVoiceSummary expectedInvoiceSummary = new InVoiceSummary(30.0, 2, 15.0);
-            Assert.AreEqual(expectedInvoiceSummary, invoiceSummary);
+            double totalActualFare = invoiceGenerator.CalculateFare(distance, time);
+            double totalExpectedFare = 25.0;
+            Assert.AreEqual(totalExpectedFare, totalActualFare);
+        }
+
+        
+        [Test]
+        public void GivenPremium_RideType_ShouldReturnInvoice()
+        {
+            double distance = 2.0;
+            int time = 5;
+            invoiceGenerator = new InVoiceGenerator(RideType.PREMIUM);
+            double totalActualFare = invoiceGenerator.CalculateFare(distance, time);
+            double totalExpectedFare = 40.0;
+            Assert.AreEqual(totalExpectedFare, totalActualFare);
         }
     }
 }
